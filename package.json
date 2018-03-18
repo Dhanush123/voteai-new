@@ -1,0 +1,16 @@
+{
+  "name": "voteai-new",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dhanush123/voteai-new.git"
+  },
+  "author": "dhanush patel",
+  "license": "ISC"
+}
