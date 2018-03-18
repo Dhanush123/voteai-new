@@ -7,7 +7,7 @@ const server = express();
 server.use(bodyParser.json());
 
 server.post('/', function (req, res) {
-  console.log('webhook request');
+  console.log('webhook request:',req);
   if (req.result.action == 'auth') {
     auth(req.body,res);
   }
