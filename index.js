@@ -8,26 +8,28 @@ server.use(bodyParser.json());
 
 server.post('/', function (req, res) {
   console.log('webhook request');
-  try {
-      if (req.body) {
-          var requestBody = req.body;
-          if (requestBody.result) {
-            if (requestBody.result.action == 'auth') {
-              console.log("going to auth intent...");
-              auth(requestBody,res);
-            }
-          }
-      }
-  }
-  catch (err) {
-    console.error('Cannot process request', err);
-    return res.status(400).json({
-        status: {
-            code: 400,
-            errorType: err.message
-        }
-    });
-  }
+  console.log("req:",req);
+  auth(req.body,res);
+//  try {
+//      if (req.body) {
+//          var requestBody = req.body;
+//          if (requestBody.result) {
+//            if (requestBody.result.action == 'auth') {
+//              console.log("going to auth intent...");
+//              auth(requestBody,res);
+//            }
+//          }
+//      }
+//  }
+//  catch (err) {
+//    console.error('Cannot process request', err);
+//    return res.status(400).json({
+//        status: {
+//            code: 400,
+//            errorType: err.message
+//        }
+//    });
+//  }
 });
 
 function auth(body,clbk) {
