@@ -8,7 +8,19 @@ server.use(bodyParser.json());
 
 server.post('/', function (req, res) {
   console.log('webhook request');
-  auth(req.body,res);
+  if (req.result.action == 'auth') {
+    auth(req.body,res);
+  }
+  else if (req.result.action == 'recieve_vote') {
+    vote(req.body,res);
+  }
+  else {
+    var speech = "An error has occured. The system could not tell whether you wanted to be authenticated or vote. Please try again.";
+    return res.json({
+      speech: speech,
+      displayText: speech
+    });
+  }
 });
 
 function auth(body,clbk) {
