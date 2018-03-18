@@ -7,11 +7,11 @@ const server = express();
 server.use(bodyParser.json());
 
 server.post('/', function (req, res) {
-  console.log('webhook request:',req);
-  if (req.result.action == 'auth') {
+  console.log('webhook request:',req.body);
+  if (req.body.result.action == 'auth') {
     auth(req.body,res);
   }
-  else if (req.result.action == 'recieve_vote') {
+  else if (req.body.result.action == 'recieve_vote') {
     vote(req.body,res);
   }
   else {
