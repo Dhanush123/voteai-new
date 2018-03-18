@@ -3,9 +3,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const bitcore = require('bitcore-lib-dash');
+const p2p = require('bitcore-p2p-dash');
 
 const server = express();
 server.use(bodyParser.json());
+
+var peer = new p2p.Peer({host: "35.227.101.202",network:bitcore.Networks.testnet});
+var ready = false;
+
+peer.on("ready", function() {
+ ready = true; 
+});
 
 server.post('/', function (req, res) {
   console.log('webhook request:',req.body);
@@ -97,9 +105,8 @@ function vote(body,clbk) {
   var paymentMethod = getRandomInt(2);
   //0 = Dash, 1 = Ethereum
   console.log("candidate:",candidate);
-  var privateKey = new bitcore.PrivateKey();
-  var address = privateKey.toAddress();
-  //var privateKey = new bitcore.PrivateKey("yMa4HeiFTvUWTTiukHiV3RsRH6eveakMgR"); //one of my keys from Dash Qt desktop app
+  var privateKey = new bitcore.PrivateKey("cRqQZRvmFgERNAzRJwJgrD4yyS8cz4sYEro5DPMFJnQeZQq7NvwH");
+  var address = privateKey.toAddress(); //one of my keys from Dash Qt desktop app
     var utxo = {
     "network":"testnet",
     "txId" : "115e8f72f39fad874cfab0deed11a80f24f967a84079fb56ddf53ea02e308986",
@@ -114,6 +121,18 @@ function vote(body,clbk) {
     .to('yXGeNPQXYFXhLAN1ZKrAjxzzBnZ2JZNKnh', 2)
     .sign(privateKey);
   
+  if(ready) {
+    var msg = new p2p.Messages();
+    var tx = messages.Transaction(transaction);
+    peer.sendMessage(tx);
+  }
+  else {
+    return clbk.json({
+        speech: "Vote record error",
+        displayText: "Vote record error",
+    });
+  }
+  
   console.log("transaction:",transaction.toString());
   
   var speech = "Your vote for presidential candidate " + candidate + " has been recorded."
@@ -122,6 +141,39 @@ function vote(body,clbk) {
       displayText: speech,
   });
 }
+
+//function getCoinbaseProducts() {
+// var options = { method: 'GET', url: 'https://api.gdax.com/products' };
+//  request(options, function (error, response, body) {
+//    if (error) throw new Error(error);
+//    body = JSON.parse(body);
+//    var relevantPairs = [];
+//    for (var i = 0; i < body.length; i++) {
+//      if (body[i]["quote_currency"] == "USD") {
+//        relevantPairs.push(body[i]);
+//      }
+//    }
+//    console.log("relevant crypto/currency pairs:",relevantPairs);
+//    getMinCoinbaseCrypto(relevantPairs);
+//  }); 
+//}
+
+//function getMinCoinbaseCrypto() {
+//  var prices = [];
+//  var pairs = ["BTC-USD","ETH-USD","LTC-USD"];
+//  var options = { method: 'GET', url:  };//'https://api.gdax.com/products/pair/ticker'
+//  for (var i = 0; i < pairs.length; i++) {
+//    request(options, function (error, response, body) {
+//      if (error) throw new Error(error);
+//      body = JSON.parse(body); //just in case
+//      prices.append(body["price"]); 
+//    });          
+//  }
+//  while (prices.length != 3) {
+//    //wait...
+//  }
+//  console.log()
+//}
 
 server.listen((process.env.PORT || 8000), function () {
   console.log('Server listening');
