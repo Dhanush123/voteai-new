@@ -91,6 +91,10 @@ function photoAuth(photoUrl,clbk) {
     });
 }
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 function vote(body,clbk) {
   var candidate = body["result"]["parameters"]["Candidates"];
   var paymentMethod = getRandomInt(2);
