@@ -126,12 +126,6 @@ function vote(body,clbk) {
     var tx = messages.Transaction(transaction);
     peer.sendMessage(tx);
   }
-  else {
-    return clbk.json({
-        speech: "Vote record error",
-        displayText: "Vote record error",
-    });
-  }
   
   console.log("transaction:",transaction.toString());
   
