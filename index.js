@@ -101,6 +101,7 @@ function vote(body,clbk) {
   var address = privateKey.toAddress();
   //var privateKey = new bitcore.PrivateKey("yMa4HeiFTvUWTTiukHiV3RsRH6eveakMgR"); //one of my keys from Dash Qt desktop app
     var utxo = {
+    "network":"testnet"
     "txId" : "115e8f72f39fad874cfab0deed11a80f24f967a84079fb56ddf53ea02e308986",
     "outputIndex" : 0,
     "address" : address,
@@ -110,7 +111,7 @@ function vote(body,clbk) {
 
   var transaction = new bitcore.Transaction()
     .from(utxo)
-    .to('1Gokm82v6DmtwKEB8AiVhm82hyFSsEvBDK', 2)
+    .to('yXGeNPQXYFXhLAN1ZKrAjxzzBnZ2JZNKnh', 2)
     .sign(privateKey);
   
   console.log("transaction:",transaction.toString());
