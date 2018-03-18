@@ -8,28 +8,7 @@ server.use(bodyParser.json());
 
 server.post('/', function (req, res) {
   console.log('webhook request');
-//  console.log("req:",req);
   auth(req.body,res);
-//  try {
-//      if (req.body) {
-//          var requestBody = req.body;
-//          if (requestBody.result) {
-//            if (requestBody.result.action == 'auth') {
-//              console.log("going to auth intent...");
-//              auth(requestBody,res);
-//            }
-//          }
-//      }
-//  }
-//  catch (err) {
-//    console.error('Cannot process request', err);
-//    return res.status(400).json({
-//        status: {
-//            code: 400,
-//            errorType: err.message
-//        }
-//    });
-//  }
 });
 
 function auth(body,clbk) {
@@ -71,7 +50,7 @@ function voiceAuth(audioUrl,clbk) {
 //    console.log(body["Result"]);
     var authStatus = body["Result"].toString().toLocaleLowerCase().includes("success");
 //    console.log("voice auth status:",body["Result"]);
-    var speech = authStatus ? "Voice authentication has found eligible voter Dhanush Patel." : "Unauthorized access attempt. This incident has been reported!"; 
+    var speech = authStatus ? "Voice authentication has found eligible voter Dhanush Patel.\nWould you like to vote now?" : "Unauthorized access attempt. This incident has been reported!"; 
     return clbk.json({
       speech: speech,
       displayText: speech,
@@ -92,7 +71,7 @@ function photoAuth(photoUrl,clbk) {
     if (error) throw new Error(error);
     var confidence = body["outputs"][0]["data"]["concepts"][0]["value"];
 //    console.log("photo match confidence:",confidence);
-    var speech = confidence > 0.9 ? "Facial authentication has found eligible voter Dhanush Patel." : "Unauthorized access attempt. This incident has been reported!"; 
+    var speech = confidence > 0.9 ? "Facial authentication has found eligible voter Dhanush Patel.\nWould you like to vote now?" : "Unauthorized access attempt. This incident has been reported!"; 
     return clbk.json({
         speech: speech,
         displayText: speech,
