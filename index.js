@@ -98,11 +98,12 @@ function vote(body,clbk) {
   //0 = Dash, 1 = Ethereum
   console.log("candidate:",candidate);
   var privateKey = new bitcore.PrivateKey();
+  var address = privateKey.toAddress();
   //var privateKey = new bitcore.PrivateKey("yMa4HeiFTvUWTTiukHiV3RsRH6eveakMgR"); //one of my keys from Dash Qt desktop app
     var utxo = {
     "txId" : "115e8f72f39fad874cfab0deed11a80f24f967a84079fb56ddf53ea02e308986",
     "outputIndex" : 0,
-    "address" : "yQgGqVdasi5jGfweJ84HJz4qp4ac5G2gxG",
+    "address" : address,
     "script" : new bitcore.Script(address).toHex(),
     "satoshis" : 40
   };
