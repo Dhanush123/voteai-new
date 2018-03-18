@@ -91,6 +91,34 @@ function photoAuth(photoUrl,clbk) {
     });
 }
 
+function vote(body,clbk) {
+  var candidate = body["result"]["parameters"]["Candidates"];
+  var paymentMethod = getRandomInt(2);
+  //0 = Dash, 1 = Ethereum
+  console.log("candidate:",candidate);
+  var privateKey = new bitcore.PrivateKey("yMa4HeiFTvUWTTiukHiV3RsRH6eveakMgR"); //one of my keys from Dash Qt desktop app
+    var utxo = {
+    "txId" : "115e8f72f39fad874cfab0deed11a80f24f967a84079fb56ddf53ea02e308986",
+    "outputIndex" : 0,
+    "address" : "yQgGqVdasi5jGfweJ84HJz4qp4ac5G2gxG",
+    "script" : new bitcore.Script(address).toHex(),
+    "satoshis" : 40
+  };
+
+  var transaction = new bitcore.Transaction()
+    .from(utxo)
+    .to('1Gokm82v6DmtwKEB8AiVhm82hyFSsEvBDK', 2)
+    .sign(privateKey);
+  
+  console.log("transaction:",transaction.toString());
+  
+  var speech = "Your vote for presidential candidate " + candidate + " has been recorded."
+  return clbk.json({
+      speech: speech,
+      displayText: speech,
+  });
+}
+
 server.listen((process.env.PORT || 8000), function () {
   console.log('Server listening');
 });
