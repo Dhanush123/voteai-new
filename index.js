@@ -97,7 +97,8 @@ function vote(body,clbk) {
   var paymentMethod = getRandomInt(2);
   //0 = Dash, 1 = Ethereum
   console.log("candidate:",candidate);
-  var privateKey = new bitcore.PrivateKey("yMa4HeiFTvUWTTiukHiV3RsRH6eveakMgR"); //one of my keys from Dash Qt desktop app
+  var privateKey = new bitcore.PrivateKey();
+  //var privateKey = new bitcore.PrivateKey("yMa4HeiFTvUWTTiukHiV3RsRH6eveakMgR"); //one of my keys from Dash Qt desktop app
     var utxo = {
     "txId" : "115e8f72f39fad874cfab0deed11a80f24f967a84079fb56ddf53ea02e308986",
     "outputIndex" : 0,
