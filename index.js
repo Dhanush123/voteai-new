@@ -8,7 +8,7 @@ server.use(bodyParser.json());
 
 server.post('/', function (req, res) {
   console.log('webhook request');
-  console.log("req:",req);
+//  console.log("req:",req);
   auth(req.body,res);
 //  try {
 //      if (req.body) {
@@ -33,7 +33,7 @@ server.post('/', function (req, res) {
 });
 
 function auth(body,clbk) {
-  console.log("even in auth???");
+//  console.log("even in auth???");
   var url = body["originalRequest"]["data"]["message"]["attachments"][0]["payload"]["url"];
   console.log("url:",url);
   if (url.toString().includes(".jpg")) {
@@ -52,7 +52,7 @@ function auth(body,clbk) {
 }
 
 function voiceAuth(audioUrl,clbk) {
-  console.log("in voiceAuth!!!");
+//  console.log("in voiceAuth!!!");
   var options = { method: 'POST',
   url: 'https://siv.voiceprintportal.com/sivservice/api/authentications/bywavurl',
   headers: 
@@ -62,15 +62,15 @@ function voiceAuth(audioUrl,clbk) {
      userid: 'dhanushp',
      vsitdeveloperid: 'c2e297ef8a444fcab3026f0838856a53',
      'content-type': 'audio/wav' } };
-  console.log("before request...");
+//  console.log("before request...");
   request(options, function (error, response, body) {
     if (error) throw new Error(error);
-    console.log("no error...");
+//    console.log("no error...");
     body = JSON.parse(body);
-    console.log(body);
-    console.log(body["Result"]);
+//    console.log(body);
+//    console.log(body["Result"]);
     var authStatus = body["Result"].toString().includes("successful");
-    console.log("voice auth status:",body["Result"]);
+//    console.log("voice auth status:",body["Result"]);
     var speech = authStatus ? "Voice authentication has found eligible voter Dhanush Patel." : "Unauthorized access attempt. This incident has been reported!"; 
     return clbk.json({
       speech: speech,
@@ -91,7 +91,7 @@ function photoAuth(photoUrl,clbk) {
   request(options, function (error, response, body) {
     if (error) throw new Error(error);
     var confidence = body["outputs"][0]["data"]["concepts"][0]["value"];
-    console.log("photo match confidence:",confidence);
+//    console.log("photo match confidence:",confidence);
     var speech = confidence > 0.9 ? "Facial authentication has found eligible voter Dhanush Patel." : "Unauthorized access attempt. This incident has been reported!"; 
     return clbk.json({
         speech: speech,
