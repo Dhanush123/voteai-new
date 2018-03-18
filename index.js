@@ -69,7 +69,7 @@ function voiceAuth(audioUrl,clbk) {
     body = JSON.parse(body);
 //    console.log(body);
 //    console.log(body["Result"]);
-    var authStatus = body["Result"].toString().includes("successful");
+    var authStatus = body["Result"].toString().toLocaleLowerCase().includes("success");
 //    console.log("voice auth status:",body["Result"]);
     var speech = authStatus ? "Voice authentication has found eligible voter Dhanush Patel." : "Unauthorized access attempt. This incident has been reported!"; 
     return clbk.json({
