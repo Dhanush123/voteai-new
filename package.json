@@ -12,5 +12,10 @@
     "url": "git+https://github.com/Dhanush123/voteai-new.git"
   },
   "author": "dhanush patel",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "request": "^2.85.0"
+  }
 }
